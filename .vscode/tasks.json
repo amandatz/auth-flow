@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/AuthFlow.Api/AuthFlow.Api.csproj",
+                "${workspaceFolder}/src/AuthFlow.Api/AuthFlow.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/AuthFlow.Api/AuthFlow.Api.csproj",
+                "${workspaceFolder}/src/AuthFlow.Api/AuthFlow.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/AuthFlow.Api/AuthFlow.Api.csproj"
+                "${workspaceFolder}/src/AuthFlow.Api/AuthFlow.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
