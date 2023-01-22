@@ -1,11 +1,13 @@
 using AuthFlow.Api;
 using AuthFlow.Application;
+using AuthFlow.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
         .AddApi()
-        .AddApplication();
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
 }
 
 var app = builder.Build();
