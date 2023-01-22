@@ -1,3 +1,5 @@
+using AuthFlow.Application.Contracts.Authentication;
+using AuthFlow.Application.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthFlow.Api.Controllers;
@@ -6,27 +8,38 @@ namespace AuthFlow.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthenticationController : ControllerBase
 {
+    private readonly IAuthenticationService _authenticationService;
+
+    public AuthenticationController(IAuthenticationService authenticationService)
+    {
+        _authenticationService = authenticationService;
+    }
+
     [HttpPost("[action]")]
     public async Task<IActionResult> Register()
     {
-        throw new NotImplementedException();
+        await _authenticationService.RegisterAsync();
+        return NoContent();
     }
 
     [HttpPost("[action]")]
     public async Task<IActionResult> Login()
     {
-        throw new NotImplementedException();
+        await _authenticationService.LoginAsync();
+        return NoContent();
     }
 
     [HttpPost("[action]")]
     public async Task<IActionResult> Refresh()
     {
-        throw new NotImplementedException();
+        await _authenticationService.RefreshAsync();
+        return NoContent();
     }
 
     [HttpDelete("[action]")]
     public async Task<IActionResult> Logout()
     {
-        throw new NotImplementedException();
+        await _authenticationService.LogoutAsync();
+        return NoContent();
     }
 }

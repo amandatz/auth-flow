@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthFlow.Api.Controllers;
 
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorsController : ControllerBase
 {
     [Route("/error")]
