@@ -1,4 +1,3 @@
-using AuthFlow.Application.Contracts.Authentication;
 using AuthFlow.Application.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
