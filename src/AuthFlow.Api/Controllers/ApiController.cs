@@ -1,5 +1,6 @@
+using AuthFlow.Api.Common.Http;
 using AuthFlow.Domain.Common.Errors;
-using MediatR;
+using AuthFlow.Domain.Common.Result;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,15 @@ namespace AuthFlow.Api.Controllers;
 [Authorize]
 public class ApiController : ControllerBase
 {
-     protected IActionResult Problem(List<Error> errors)
+    protected IActionResult HandleFailure(Result result) =>
+        result switch
+        {
+            { IsSuccess: true } => throw new InvalidOperationException(),
+            IValidationResult validationResult => Problem(validationResult.Errors),
+            _ => Problem(result.Error)
+        };
+
+    protected IActionResult Problem(List<Error> errors)
     {
         if (errors.Count is 0)
             return Problem();
@@ -19,7 +28,7 @@ public class ApiController : ControllerBase
 
         HttpContext.Items[HttpContextItemKeys.Errors] = errors;
 
-        var firstError = errors[0];
+        var firstError = errors.Find(error => error.Type != ErrorType.Validation) ?? errors[0];
 
         return Problem(firstError);
     }
@@ -34,20 +43,24 @@ public class ApiController : ControllerBase
             _ => StatusCodes.Status500InternalServerError
         };
 
-        return Problem(statusCode: statusCode, title: error.Description);
+        return Problem(statusCode: statusCode, title: error.Message);
     }
 
     private IActionResult ValidationProblem(List<Error> errors)
     {
-        var modelStateDictionary = new ModelStateDictionary();
+        var validationProblemDetails = new ValidationProblemDetails
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Title = "One or more validation errors occurred.",
+            Detail = "See the errors property for details.",
+            Instance = HttpContext.Request.Path
+        };
 
         foreach (var error in errors)
         {
-            modelStateDictionary.AddModelError(
-                error.Code,
-                error.Description);
+            validationProblemDetails.Errors.Add(error.Code, new[] { error.Message });
         }
 
-        return ValidationProblem(modelStateDictionary);
+        return ValidationProblem(validationProblemDetails);
     }
 }

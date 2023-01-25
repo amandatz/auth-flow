@@ -25,15 +25,16 @@ public class ValidationBehavior<TRequest, TResponse> :
         if (!_validators.Any())
             return await next();
 
-        Error[] errors = _validators
+        List<Error> errors = _validators
                 .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
                 .Where(f => f is not null)
                 .Select(f => new Error(
+                    type: ErrorType.Validation,
                     code: f.PropertyName,
                     message: f.ErrorMessage))
                 .Distinct()
-                .ToArray();
+                .ToList();
 
         if (errors.Any())
             return CreateValidationResult<TResponse>(errors);
@@ -41,7 +42,7 @@ public class ValidationBehavior<TRequest, TResponse> :
         return await next();
     }
 
-    private static TResult CreateValidationResult<TResult>(Error[] errors)
+    private static TResult CreateValidationResult<TResult>(List<Error> errors)
         where TResult : Result
     {
         if (typeof(TResult) == typeof(Result))

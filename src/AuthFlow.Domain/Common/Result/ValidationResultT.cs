@@ -4,14 +4,14 @@ namespace AuthFlow.Domain.Common.Result;
 
 public sealed class ValidationResult<TValue> : Result<TValue>, IValidationResult
 {
-    private ValidationResult(Error[] errors)
+    private ValidationResult(List<Error> errors)
         : base(default!, false, IValidationResult.ValidationError)
     {
         Errors = errors;
     }
 
-    public Error[] Errors { get; }
+    public List<Error> Errors { get; }
 
-    public static ValidationResult<TValue> WithErrors(Error[] errors)
+    public static ValidationResult<TValue> WithErrors(List<Error> errors)
         => new(errors);
 }

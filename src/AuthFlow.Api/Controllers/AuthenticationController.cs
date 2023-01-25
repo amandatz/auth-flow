@@ -26,7 +26,7 @@ public class AuthenticationController : ApiController
 
         if (result.IsFailure)
         {
-            return BadRequest(result.Error);
+            return HandleFailure(result);
         }
 
         return NoContent();
