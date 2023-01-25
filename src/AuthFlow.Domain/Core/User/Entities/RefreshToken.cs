@@ -1,7 +1,7 @@
 using AuthFlow.Domain.Common.Models;
-using AuthFlow.Domain.User.ValueObjects;
+using AuthFlow.Domain.Core.User.ValueObjects;
 
-namespace AuthFlow.Domain.User.Entities;
+namespace AuthFlow.Domain.Core.User.Entities;
 
 public sealed class UserRefreshToken : Entity<UserRefreshTokenId>
 {

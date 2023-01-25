@@ -1,17 +1,17 @@
 using AuthFlow.Domain.Common.Models;
 
-namespace AuthFlow.Domain.User.ValueObjects;
+namespace AuthFlow.Domain.Core.User.ValueObjects;
 
-public sealed class UserId : ValueObject
+public sealed class UserRefreshTokenId : ValueObject
 {
-    private UserId(Guid value)
+    private UserRefreshTokenId(Guid value)
     {
         Value = value;
     }
 
-    public Guid Value { get; private set; }
+    public Guid Value { get; }
 
-    public static UserId CreateUnique()
+    public static UserRefreshTokenId CreateUnique()
     {
         return new(Guid.NewGuid());
     }

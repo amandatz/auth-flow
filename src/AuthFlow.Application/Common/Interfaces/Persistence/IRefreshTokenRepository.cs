@@ -1,5 +1,5 @@
-using AuthFlow.Domain.User.Entities;
-using AuthFlow.Domain.User.ValueObjects;
+using AuthFlow.Domain.Core.User.Entities;
+using AuthFlow.Domain.Core.User.ValueObjects;
 
 namespace AuthFlow.Application.Common.Interfaces.Persistence;
 

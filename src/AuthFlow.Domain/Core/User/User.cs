@@ -1,7 +1,7 @@
 using AuthFlow.Domain.Common.Models;
-using AuthFlow.Domain.User.ValueObjects;
+using AuthFlow.Domain.Core.User.ValueObjects;
 
-namespace AuthFlow.Domain.User;
+namespace AuthFlow.Domain.Core.User;
 
 public sealed class User : AggregateRoot<UserId>
 {

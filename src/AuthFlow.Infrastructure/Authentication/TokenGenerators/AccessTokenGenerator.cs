@@ -1,5 +1,5 @@
 using AuthFlow.Application.Common.Interfaces.Authentication;
-using AuthFlow.Domain.User;
+using AuthFlow.Domain.Core.User;
 using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

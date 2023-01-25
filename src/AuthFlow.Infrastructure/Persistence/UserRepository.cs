@@ -1,6 +1,6 @@
 using AuthFlow.Application.Common.Interfaces.Persistence;
-using AuthFlow.Domain.User;
-using AuthFlow.Domain.User.ValueObjects;
+using AuthFlow.Domain.Core.User;
+using AuthFlow.Domain.Core.User.ValueObjects;
 
 namespace AuthFlow.Infrastructure.Persistence;
 

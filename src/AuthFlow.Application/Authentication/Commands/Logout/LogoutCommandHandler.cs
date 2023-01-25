@@ -1,6 +1,7 @@
 ﻿using AuthFlow.Application.Common.Interfaces.Persistence;
 using MediatR;
 using AuthFlow.Domain.Common.Result;
+using AuthFlow.Domain.Core.Errors;
 
 namespace AuthFlow.Application.Authentication.Commands.Logout;
 
@@ -21,11 +22,11 @@ internal sealed class LogoutCommandHandler : IRequestHandler<LogoutCommand, Resu
     {
         var token = await _refreshTokenRepository.GetByToken(command.RefreshToken);
         if (token is null)
-            throw new Exception("Invalid refresh token");
+            return Result.Failure(Errors.Authentication.InvalidRefreshToken);
 
         var user = await _userRepository.GetById(token.UserId);
         if (user is null)
-            throw new Exception("Invalid user");
+            return Result.Failure(Errors.User.InvalidUser);
 
         await _refreshTokenRepository.DeleteByUserId(user.Id);
 

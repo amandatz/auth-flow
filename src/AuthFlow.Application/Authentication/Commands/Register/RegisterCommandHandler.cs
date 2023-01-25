@@ -1,8 +1,9 @@
 ﻿using AuthFlow.Application.Common.Interfaces.Persistence;
 using MediatR;
-using AuthFlow.Domain.User;
+using AuthFlow.Domain.Core.User;
 using AuthFlow.Domain.Common.Result;
 using AuthFlow.Application.Common.Interfaces.Authentication;
+using AuthFlow.Domain.Core.Errors;
 
 namespace AuthFlow.Application.Authentication.Commands.Register;
 
@@ -23,7 +24,7 @@ internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, 
     {
         var user = await _userRepository.GetByEmail(command.Email);
         if (user is not null)
-            throw new Exception("User with this email already exists");
+            return Result.Failure(Errors.User.DuplicateEmail);
 
         var hashedPassword = _passwordHasher.HashPassword(command.Password);
 

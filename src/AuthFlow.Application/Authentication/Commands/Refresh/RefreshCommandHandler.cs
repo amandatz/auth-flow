@@ -3,6 +3,7 @@ using MediatR;
 using AuthFlow.Domain.Common.Result;
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Application.Authentication.Common;
+using AuthFlow.Domain.Core.Errors;
 
 namespace AuthFlow.Application.Authentication.Commands.Refresh;
 
@@ -29,15 +30,15 @@ internal sealed class RefreshCommandHandler : IRequestHandler<RefreshCommand, Re
     {
         var isRefreshTokenValid = _refreshTokenValidator.Validate(command.RefreshToken);
         if (!isRefreshTokenValid)
-            throw new Exception("Invalid refresh token");
+            return Result.Failure<AuthenticationResult>(Errors.Authentication.InvalidRefreshToken);
 
         var token = await _refreshTokenRepository.GetByToken(command.RefreshToken);
         if (token is null)
-            throw new Exception("Invalid refresh token");
+            return Result.Failure<AuthenticationResult>(Errors.Authentication.InvalidRefreshToken);
 
         var user = await _userRepository.GetById(token.UserId);
         if (user is null)
-            throw new Exception("Invalid user");
+            return Result.Failure<AuthenticationResult>(Errors.User.InvalidUser);
 
         await _refreshTokenRepository.Delete(token.Id);
 

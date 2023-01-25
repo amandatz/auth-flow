@@ -27,4 +27,6 @@ public class Result
     public static Result Failure(Error error) => new(false, error);
 
     public static Result<T> Failure<T>(Error error) => new(default!, false, error);
+
+    public static implicit operator Result(Error error) => Failure(error);
 }

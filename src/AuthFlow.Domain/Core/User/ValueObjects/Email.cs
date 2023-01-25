@@ -1,6 +1,6 @@
 using AuthFlow.Domain.Common.Models;
 
-namespace AuthFlow.Domain.User.ValueObjects;
+namespace AuthFlow.Domain.Core.User.ValueObjects;
 
 public sealed class Email : ValueObject
 {
