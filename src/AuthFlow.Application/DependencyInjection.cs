@@ -1,6 +1,5 @@
 using System.Reflection;
 using AuthFlow.Application.Common.Behaviors;
-using AuthFlow.Application.Services.Authentication;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +11,6 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
-
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
