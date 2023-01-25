@@ -6,6 +6,7 @@ using AuthFlow.Domain.Common.Result;
 using AuthFlow.Application.Authentication.Commands.Register;
 using AuthFlow.Application.Authentication.Queries.Login;
 using AuthFlow.Application.Authentication.Commands.Refresh;
+using AuthFlow.Application.Authentication.Commands.Logout;
 
 namespace AuthFlow.Api.Controllers;
 
@@ -55,7 +56,9 @@ public sealed class AuthenticationController : ApiController
     [HttpDelete("[action]")]
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
-        // await _authenticationService.LogoutAsync(request.RefreshToken);
-        return Ok();
+        var command = new LogoutCommand(request.RefreshToken);
+        var authResult = await _mediator.Send(command);
+
+        return authResult.Match(NoContent, Problem);
     }
 }
