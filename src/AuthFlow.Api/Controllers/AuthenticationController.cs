@@ -5,6 +5,7 @@ using MediatR;
 using AuthFlow.Domain.Common.Result;
 using AuthFlow.Application.Authentication.Commands.Register;
 using AuthFlow.Application.Authentication.Queries.Login;
+using AuthFlow.Application.Authentication.Commands.Refresh;
 
 namespace AuthFlow.Api.Controllers;
 
@@ -42,10 +43,12 @@ public sealed class AuthenticationController : ApiController
     [HttpPost("[action]")]
     public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
     {
-        // var authResult = await _authenticationService.RefreshAsync(request.RefreshToken);
-        // var response = new AuthenticationResponse(authResult.User.Id.Value, authResult.AccessToken, authResult.RefreshToken);
-        // return Ok(response);
-        return Ok();
+        var command = new RefreshCommand(request.RefreshToken);
+        var authResult = await _mediator.Send(command);
+
+        return authResult.Match(
+            authResult => Ok(new AuthenticationResponse(authResult.User.Id.Value, authResult.AccessToken, authResult.RefreshToken)),
+            errors => Problem(errors));
     }
 
     [Authorize]

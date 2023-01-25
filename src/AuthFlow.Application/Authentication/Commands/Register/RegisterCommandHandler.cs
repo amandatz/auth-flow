@@ -21,8 +21,6 @@ internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, 
 
     public async Task<Result> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-
         var user = await _userRepository.GetByEmail(command.Email);
         if (user is not null)
             throw new Exception("User with this email already exists");
