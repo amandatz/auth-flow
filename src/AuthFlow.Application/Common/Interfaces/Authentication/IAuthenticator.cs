@@ -1,4 +1,4 @@
-using AuthFlow.Application.Services.Common;
+using AuthFlow.Application.Authentication.Common;
 using AuthFlow.Domain.User;
 
 namespace AuthFlow.Application.Common.Interfaces.Authentication;

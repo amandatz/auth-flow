@@ -1,7 +1,6 @@
+using AuthFlow.Application.Authentication.Common;
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Application.Common.Interfaces.Persistence;
-using AuthFlow.Application.Services.Common;
-using AuthFlow.Domain.User;
 
 namespace AuthFlow.Application.Services.Authentication;
 
@@ -25,18 +24,6 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
         _refreshTokenRepository = refreshTokenRepository;
         _refreshTokenValidator = refreshTokenValidator;
-    }
-
-    public async Task<AuthenticationResult> LoginAsync(string email, string password)
-    {
-        var user = await _userRepository.GetByEmail(email);
-        if (user is null)
-            throw new Exception("Invalid credentials");
-
-        if(!_passwordHasher.VerifyPassword(password, user.Password))
-            throw new Exception("Invalid credentials");
-
-        return await _authenticator.Authenticate(user);
     }
 
     public async Task<AuthenticationResult> RefreshAsync(string refreshToken)
