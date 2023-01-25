@@ -1,6 +1,6 @@
 using AuthFlow.Domain.User;
 
-namespace AuthFlow.Application.Services.Authentication;
+namespace AuthFlow.Application.Services.Common;
 
 public record AuthenticationResult(
     User User,

@@ -1,6 +1,6 @@
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Application.Common.Interfaces.Persistence;
-using AuthFlow.Application.Services.Authentication;
+using AuthFlow.Application.Services.Common;
 using AuthFlow.Domain.User;
 using AuthFlow.Domain.User.Entities;
 

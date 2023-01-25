@@ -1,5 +1,6 @@
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Application.Common.Interfaces.Persistence;
+using AuthFlow.Application.Services.Common;
 using AuthFlow.Domain.User;
 
 namespace AuthFlow.Application.Services.Authentication;
@@ -24,18 +25,6 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
         _refreshTokenRepository = refreshTokenRepository;
         _refreshTokenValidator = refreshTokenValidator;
-    }
-
-    public async Task RegisterAsync(string firstName, string lastName, string email, string password)
-    {
-        var user = await _userRepository.GetByEmail(email);
-        if (user is not null)
-            throw new Exception("User with this email already exists");
-
-        var hashedPassword = _passwordHasher.HashPassword(password);
-
-        user = User.Create(firstName, lastName, email, hashedPassword);
-        await _userRepository.Insert(user);
     }
 
     public async Task<AuthenticationResult> LoginAsync(string email, string password)

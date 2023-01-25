@@ -4,13 +4,14 @@ namespace AuthFlow.Domain.Common.Errors;
 
 public class Error : ValueObject
 {
-    public Error(string message, string code)
+    public Error(string code, string message)
     {
-        Message = message;
         Code = code;
+        Message = message;
     }
-    public string Message { get; }
+
     public string Code { get; }
+    public string Message { get; }
 
     internal static Error None => new(string.Empty, string.Empty);
 
