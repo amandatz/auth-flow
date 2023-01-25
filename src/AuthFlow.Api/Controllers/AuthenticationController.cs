@@ -7,6 +7,7 @@ using AuthFlow.Application.Authentication.Commands.Register;
 using AuthFlow.Application.Authentication.Queries.Login;
 using AuthFlow.Application.Authentication.Commands.Refresh;
 using AuthFlow.Application.Authentication.Commands.Logout;
+using MapsterMapper;
 
 namespace AuthFlow.Api.Controllers;
 
@@ -15,16 +16,18 @@ namespace AuthFlow.Api.Controllers;
 public sealed class AuthenticationController : ApiController
 {
     private readonly ISender _mediator;
+    private readonly IMapper _mapper;
 
-    public AuthenticationController(ISender mediator)
+    public AuthenticationController(ISender mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpPost("[action]")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+        var command = _mapper.Map<RegisterCommand>(request);
         var authResult = await _mediator.Send(command);
 
         return authResult.Match(NoContent, Problem);
@@ -33,22 +36,22 @@ public sealed class AuthenticationController : ApiController
     [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var query = new LoginQuery(request.Email, request.Password);
+        var query = _mapper.Map<LoginQuery>(request);
         var authResult = await _mediator.Send(query);
 
         return authResult.Match(
-            authResult => Ok(new AuthenticationResponse(authResult.User.Id.Value, authResult.AccessToken, authResult.RefreshToken)),
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
             errors => Problem(errors));
     }
 
     [HttpPost("[action]")]
     public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
     {
-        var command = new RefreshCommand(request.RefreshToken);
+        var command = _mapper.Map<RefreshCommand>(request);
         var authResult = await _mediator.Send(command);
 
         return authResult.Match(
-            authResult => Ok(new AuthenticationResponse(authResult.User.Id.Value, authResult.AccessToken, authResult.RefreshToken)),
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
             errors => Problem(errors));
     }
 
@@ -56,7 +59,7 @@ public sealed class AuthenticationController : ApiController
     [HttpDelete("[action]")]
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
-        var command = new LogoutCommand(request.RefreshToken);
+        var command = _mapper.Map<LogoutCommand>(request);
         var authResult = await _mediator.Send(command);
 
         return authResult.Match(NoContent, Problem);

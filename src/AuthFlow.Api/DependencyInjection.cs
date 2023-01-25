@@ -1,3 +1,5 @@
+using AuthFlow.Api.Common.Mapper;
+
 namespace AuthFlow.Api;
 
 public static class DependencyInjection
@@ -6,6 +8,7 @@ public static class DependencyInjection
     {
         services.AddControllers();
         services.AddSwaggerGen();
+        services.AddMappings();
 
         return services;
     }
