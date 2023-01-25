@@ -1,9 +1,9 @@
-using AuthFlow.Application.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AuthFlow.Application.Contracts.Authentication;
 using MediatR;
 using AuthFlow.Application.Authentication.Commands.Register;
+using AuthFlow.Domain.Common.Result;
 
 namespace AuthFlow.Api.Controllers;
 
@@ -22,14 +22,11 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
-        var result = await _mediator.Send(command);
+        var authResult = await _mediator.Send(command);
 
-        if (result.IsFailure)
-        {
-            return HandleFailure(result);
-        }
-
-        return NoContent();
+        return authResult.Match(
+            () => NoContent(),
+            errors => Problem(errors));
     }
 
     [HttpPost("[action]")]

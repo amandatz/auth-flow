@@ -4,8 +4,7 @@ namespace AuthFlow.Domain.Common.Result;
 
 public interface IValidationResult
 {
-    public static readonly Error ValidationError = new(
-        ErrorType.Validation,
+    public static readonly Error ValidationError = Error.Validation(
         "ValidationError",
         "A validation error occurred.");
 

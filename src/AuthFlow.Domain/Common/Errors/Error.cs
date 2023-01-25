@@ -4,7 +4,7 @@ namespace AuthFlow.Domain.Common.Errors;
 
 public class Error : ValueObject
 {
-    public Error(ErrorType type, string code, string message)
+    protected Error(ErrorType type, string code, string message)
     {
         Type = type;
         Code = code;
@@ -23,7 +23,7 @@ public class Error : ValueObject
 
     public static Error Unknown(string code, string message) => new(ErrorType.Unknown, code, message);
 
-    internal static Error None => new(ErrorType.Unknown, string.Empty, string.Empty);
+    internal static Error None => Error.Unknown(string.Empty, string.Empty);
 
     public static implicit operator string(Error error) => error?.Code ?? string.Empty;
 

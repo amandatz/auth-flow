@@ -29,8 +29,7 @@ public class ValidationBehavior<TRequest, TResponse> :
                 .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
                 .Where(f => f is not null)
-                .Select(f => new Error(
-                    type: ErrorType.Validation,
+                .Select(f => Error.Validation(
                     code: f.PropertyName,
                     message: f.ErrorMessage))
                 .Distinct()

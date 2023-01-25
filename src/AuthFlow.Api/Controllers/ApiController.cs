@@ -10,14 +10,6 @@ namespace AuthFlow.Api.Controllers;
 [Authorize]
 public class ApiController : ControllerBase
 {
-    protected IActionResult HandleFailure(Result result) =>
-        result switch
-        {
-            { IsSuccess: true } => throw new InvalidOperationException(),
-            IValidationResult validationResult => Problem(validationResult.Errors),
-            _ => Problem(result.Error)
-        };
-
     protected IActionResult Problem(List<Error> errors)
     {
         if (errors.Count is 0)
