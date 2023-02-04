@@ -17,7 +17,7 @@ public class AuthenticationMappingConfig : IRegister
         config.NewConfig<RefreshRequest, RefreshCommand>();
         config.NewConfig<LogoutRequest, LogoutCommand>();
         config.NewConfig<AuthenticationResult, AuthenticationResponse>()
-            .Map(dest => dest.UserId, src => src.User.Id.Value)
+            .Map(dest => dest.UserId, src => (Guid) src.User.Id)
             .Map(dest => dest, src => src.User);
     }
 }

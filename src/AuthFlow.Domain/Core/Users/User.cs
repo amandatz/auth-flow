@@ -1,10 +1,14 @@
 using AuthFlow.Domain.Common.Models;
-using AuthFlow.Domain.Core.User.ValueObjects;
+using AuthFlow.Domain.Core.Users.ValueObjects;
 
-namespace AuthFlow.Domain.Core.User;
+namespace AuthFlow.Domain.Core.Users;
 
 public sealed class User : AggregateRoot<UserId>
 {
+    #pragma warning disable CS8618
+    private User() { }
+    #pragma warning disable CS8618
+
     private User(UserId id, string firstName, string lastName, Email email, string password) : base(id)
     {
         FirstName = firstName;
@@ -24,7 +28,7 @@ public sealed class User : AggregateRoot<UserId>
             UserId.CreateUnique(),
             firstName,
             lastName,
-            Email.CreateNew(email),
+            Email.Create(email),
             password);
     }
 }

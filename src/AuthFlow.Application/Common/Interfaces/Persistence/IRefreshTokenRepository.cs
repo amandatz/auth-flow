@@ -1,12 +1,13 @@
-using AuthFlow.Domain.Core.User.Entities;
-using AuthFlow.Domain.Core.User.ValueObjects;
+using AuthFlow.Domain.Core.RefreshToken;
+using AuthFlow.Domain.Core.RefreshToken.ValueObjects;
+using AuthFlow.Domain.Core.Users.ValueObjects;
 
 namespace AuthFlow.Application.Common.Interfaces.Persistence;
 
 public interface IRefreshTokenRepository
 {
-    Task<UserRefreshToken?> GetByToken(string token);
-    Task Insert(UserRefreshToken refreshToken);
-    Task Delete(UserRefreshTokenId id);
+    Task<RefreshToken?> GetByToken(string token);
+    Task Insert(RefreshToken refreshToken);
+    Task Delete(RefreshTokenId id);
     Task DeleteByUserId(UserId userId);
 }

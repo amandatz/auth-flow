@@ -7,8 +7,10 @@ using AuthFlow.Infrastructure.Authentication.PasswordHasher;
 using AuthFlow.Infrastructure.Authentication.TokenGenerators;
 using AuthFlow.Infrastructure.Authentication.TokenValidators;
 using AuthFlow.Infrastructure.Persistence;
+using AuthFlow.Infrastructure.Persistence.Repositories;
 using AuthFlow.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -31,6 +33,9 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(
         this IServiceCollection services)
     {
+        services.AddDbContext<AuthFlowDbContext>(options =>
+            options.UseSqlServer("Server=localhost;Database=AuthFlow;User Id=sa;Password=Senha123;TrustServerCertificate=true"));
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 

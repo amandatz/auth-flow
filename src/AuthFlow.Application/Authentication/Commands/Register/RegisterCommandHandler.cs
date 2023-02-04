@@ -1,9 +1,9 @@
 ﻿using AuthFlow.Application.Common.Interfaces.Persistence;
 using MediatR;
-using AuthFlow.Domain.Core.User;
 using AuthFlow.Domain.Common.Result;
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Domain.Core.Errors;
+using AuthFlow.Domain.Core.Users;
 
 namespace AuthFlow.Application.Authentication.Commands.Register;
 

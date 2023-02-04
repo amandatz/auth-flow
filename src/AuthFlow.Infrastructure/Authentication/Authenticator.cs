@@ -1,8 +1,8 @@
 using AuthFlow.Application.Authentication.Common;
 using AuthFlow.Application.Common.Interfaces.Authentication;
 using AuthFlow.Application.Common.Interfaces.Persistence;
-using AuthFlow.Domain.Core.User;
-using AuthFlow.Domain.Core.User.Entities;
+using AuthFlow.Domain.Core.RefreshToken;
+using AuthFlow.Domain.Core.Users;
 
 namespace AuthFlow.Infrastructure.Authentication;
 
@@ -26,7 +26,7 @@ public class Authenticator : IAuthenticator
     {
         var accessToken = _accessTokenGenerator.Generate(user);
         var refreshToken = _refreshTokenGenerator.Generate();
-        await _refreshTokenRepository.Insert(UserRefreshToken.Create(user.Id, refreshToken));
+        await _refreshTokenRepository.Insert(RefreshToken.Create(user.Id, refreshToken));
 
         return new AuthenticationResult(user, accessToken, refreshToken);
     }
