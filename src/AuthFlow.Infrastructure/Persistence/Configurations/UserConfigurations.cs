@@ -33,13 +33,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(u => u.Email)
-            .HasConversion(
-                email => email.Value,
-                email => Email.Create(email)
-            )
-            .IsRequired()
-            .HasMaxLength(100);
+        builder.OwnsOne(u => u.Email, emailBuilder =>
+        {
+            emailBuilder.Property(e => e.Value)
+                .HasColumnName(nameof(User.Email))
+                .IsRequired()
+                .HasMaxLength(100);
+        });
 
         builder.Property(u => u.Password)
             .IsRequired()
