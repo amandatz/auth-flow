@@ -1,9 +1,12 @@
 using AuthFlow.Api;
 using AuthFlow.Application;
 using AuthFlow.Infrastructure;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    ValidatorOptions.Global.LanguageManager.Enabled = false;
+
     builder.Services
         .AddApi()
         .AddApplication()
